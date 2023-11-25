@@ -9,9 +9,9 @@
 #    Updated: 2023/11/25 16:09:18 by michang          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-\
+
 CC = cc
-WFLAG = -Wall -Wextra -Werror
+CFLAG = -Wall -Wextra -Werror
 
 DIR = ./
 BASE = philo
@@ -24,7 +24,7 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 
 %.o : %.c
-	$(CC) $(WFLAG) -I $(dir $<) -c $< -o $@
+	$(CC) $(CFLAG) -I $(dir $<) -c $< -o $@
 
 clean :
 	rm -f $(OBJ)
