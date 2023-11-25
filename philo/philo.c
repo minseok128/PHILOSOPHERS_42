@@ -23,5 +23,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (init_philo_arr(&arr, &info))
 		return (1);
+	start_philo(arr, &info);
 	return (0);
 }

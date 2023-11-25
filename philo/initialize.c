@@ -53,10 +53,47 @@ int	init_philo_arr(t_philo **arr, t_info *info)
 	{
 		memset(&(*arr)[i], 0, sizeof(t_philo));
 		(*arr)[i].info = info;
-		(*arr)[i].id = i;
+		(*arr)[i].id = i + 1;
 		(*arr)[i].left_fork = &fork_arr[i];
 		(*arr)[i].right_fork = &fork_arr[(i + 1) % info->n_of_philo];
 		i++;
 	}
+	return (0);
+}
+
+void	action_philo(t_philo *p)
+{
+	pthread_mutex_lock(&(p->info->ready_mutex));
+	pthread_mutex_unlock(&(p->info->ready_mutex));
+	while (1)
+	{
+		pthread_mutex_lock(&(p->info->rsc_mutex));
+		printf("%d, here!\n", p->id);
+		pthread_mutex_unlock(&(p->info->rsc_mutex));
+		usleep(500000);
+	}
+}
+
+int	start_philo(t_philo *arr, t_info *info)
+{
+	int	i;
+
+	pthread_mutex_lock(&(info->ready_mutex));
+	i = 0;
+	while (i < info->n_of_philo)
+	{
+		printf("id:%d set\n", i);
+		if (pthread_create(&(arr[i].thread_id),
+						   NULL,(void *)action_philo, &arr[i]) != 0)
+		{
+			pthread_mutex_unlock(&(info->ready_mutex));
+			return (1);
+		}
+		i++;
+	}
+	pthread_mutex_unlock(&(info->ready_mutex));
+	i = 0;
+	while (i < info->n_of_philo)
+		pthread_join(arr[i++].thread_id, NULL);
 	return (0);
 }

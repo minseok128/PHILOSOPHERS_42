@@ -22,6 +22,7 @@ NAME = philo
 all : $(NAME)
 
 $(NAME) : $(OBJ)
+	$(CC) $(CFLAG) -fsanitize=thread -I $(dir $<) $(OBJ) -o $(NAME)
 
 %.o : %.c
 	$(CC) $(CFLAG) -I $(dir $<) -c $< -o $@
