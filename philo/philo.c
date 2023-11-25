@@ -52,11 +52,11 @@ int	init_philo_arr(t_philo **arr, t_info *info)
 	i = 0;
 	while (i < info->n_of_philo)
 	{
-		memset(&arr[i], 0, sizeof(t_philo));
-		arr[i]->info = info;
-		arr[i]->id = i;
-		arr[i]->left_fork = &fork_arr[i];
-		arr[i]->right_fork = &fork_arr[(i + 1) % info->n_of_philo];
+		memset(&(*arr)[i], 0, sizeof(t_philo));
+		(*arr)[i].info = info;
+		(*arr)[i].id = i;
+		(*arr)[i].left_fork = &fork_arr[i];
+		(*arr)[i].right_fork = &fork_arr[(i + 1) % info->n_of_philo];
 		i++;
 	}
 	return (0);
@@ -65,17 +65,17 @@ int	init_philo_arr(t_philo **arr, t_info *info)
 int	main(int argc, char **argv)
 {
 	t_info	info;
-	t_philo *philo_arr;
+	t_philo *arr;
 
 	if (!(argc == 5 || argc == 6))
 		return (1);
 	if (init_info(argc, argv, &info))
 		return (1);
-	if(init_philo_arr(&philo_arr, &info))
+	if(init_philo_arr(&arr, &info))
 		return (1);
 	for (int i = 0; i < info.n_of_philo; i++)
 	{
-		printf("id: %d, left:%p\n", philo_arr[i].id, &(philo_arr[i].left_fork));
+		printf("id: %d, left:%p, right:%p\n", arr[i].id, arr[i].left_fork, arr[i].right_fork);
 	}
 	return (0);
 }
