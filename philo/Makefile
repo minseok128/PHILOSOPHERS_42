@@ -14,7 +14,7 @@ CC = cc
 CFLAG = -Wall -Wextra -Werror
 
 DIR = ./
-BASE = philo atol
+BASE = philo atol initialize
 SRC = $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ = $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME = philo
