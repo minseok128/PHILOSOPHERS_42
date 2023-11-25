@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef PHILO_H
-#define PHILO_H
-
+# define PHILO_H
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
@@ -21,18 +20,18 @@
 # include <string.h>
 
 typedef struct s_info {
-    long long   	n_of_philo;
-    long long   	t_to_die;
-    long long   	t_to_eat;
-    long long   	t_to_sleep;
-    long long   	max_eat;
+	long long		n_of_philo;
+	long long		t_to_die;
+	long long		t_to_eat;
+	long long		t_to_sleep;
+	long long		max_eat;
 	int				max_eat_mode;
 	int				dead;
 	int				error;
 	int				end_philo;
 	pthread_mutex_t	ready_mutex;
 	pthread_mutex_t	rsc_mutex;
-} t_info;
+}	t_info;
 
 typedef struct s_philo
 {
@@ -44,11 +43,10 @@ typedef struct s_philo
 	int				start;
 	int				eat_count;
 	long long		last_eat_time;
-} t_philo;
-
+}	t_philo;
 
 long long	ft_atol(const char *str);
-int	init_info(int argc, char **argv, t_info *info);
-int	init_philo_arr(t_philo **arr, t_info *info);
+int			init_info(int argc, char **argv, t_info *info);
+int			init_philo_arr(t_philo **arr, t_info *info);
 
 #endif
