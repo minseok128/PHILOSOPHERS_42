@@ -20,10 +20,17 @@
 # include <stdio.h>
 
 typedef struct s_info {
-    long long   n_of_philos;
-    long long   t_to_die;
-    long long   t_to_sleep;
-    long long   n_of_t_must_eat;
+    long long   	n_of_philo;
+    long long   	t_to_die;
+    long long   	t_to_eat;
+    long long   	t_to_sleep;
+    long long   	max_eat;
+	int				max_eat_mode;
+	int				dead;
+	int				error;
+	int				end_philo;
+	pthread_mutex_t	ready_mutex;
+	pthread_mutex_t	rsc_mutex;
 } t_info;
 
 long long	ft_atol(const char *str);
