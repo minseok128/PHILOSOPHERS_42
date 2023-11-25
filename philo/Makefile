@@ -14,7 +14,7 @@ CC = cc
 CFLAG = -Wall -Wextra -Werror
 
 DIR = ./
-BASE = philo
+BASE = philo atol
 SRC = $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
 OBJ = $(addprefix $(DIR), $(addsuffix .o, $(BASE)))
 NAME = philo
@@ -36,15 +36,5 @@ re : clean all
 
 .PHONY : all clean fclean re
 
-party :
-	@printf "\033c"
-	@echo "\n\033[35m♪┏(・o･)┛♪\n"
-	@sleep 0.5
-	@printf "\033c"
-	@echo "\n\033[1;33m♪┗(・o･)┓♪\n"
-	@sleep 0.5
-	@printf "\033c"
-	@echo "\n\033[36m♪┏(・o･)┛♪\n"
-	@sleep 0.5
-	@printf "\033c"
-	@echo "\n\033[34m♪┗(・o･)┓♪\n"
+test : all clean
+	./$(NAME) 4 410 200 200
