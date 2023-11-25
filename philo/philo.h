@@ -18,6 +18,7 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <string.h>
 
 typedef struct s_info {
     long long   	n_of_philo;
@@ -32,6 +33,19 @@ typedef struct s_info {
 	pthread_mutex_t	ready_mutex;
 	pthread_mutex_t	rsc_mutex;
 } t_info;
+
+typedef struct s_philo
+{
+	pthread_t		thread_id;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	t_info			*info;
+	int				id;
+	int				start;
+	int				eat_count;
+	long long		last_eat_time;
+} t_philo;
+
 
 long long	ft_atol(const char *str);
 
