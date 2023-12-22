@@ -46,6 +46,7 @@ typedef struct s_philo
 	long long		t_to_last_eat;
 }	t_philo;
 
+long long	get_time();
 long long	ft_atol(const char *str);
 int			init_info(int argc, char **argv, t_info *info);
 int			init_philo_arr(t_philo **arr, t_info *info);
