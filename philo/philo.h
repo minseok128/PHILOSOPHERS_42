@@ -49,6 +49,7 @@ long long	ft_atol(const char *str);
 int			init_info(int argc, char **argv, t_info *info);
 int			init_philo_arr(t_philo **arr, t_info *info);
 int			start_philo(t_philo *arr, t_info *info);
+void		action_philo(t_philo *p);
 void		join_philos(t_philo *arr, int n);
 
 #endif

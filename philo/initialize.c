@@ -61,30 +61,6 @@ int	init_philo_arr(t_philo **arr, t_info *info)
 	return (0);
 }
 
-void	action_philo(t_philo *p)
-{
-	pthread_mutex_lock(&(p->info->ready_mutex));
-	pthread_mutex_unlock(&(p->info->ready_mutex));
-	if (p->info->is_error)
-		return ;
-	while (1)
-	{
-		pthread_mutex_lock(&(p->info->rsc_mutex));
-		printf("%d, here!\n", p->id);
-		pthread_mutex_unlock(&(p->info->rsc_mutex));
-		usleep(500000);
-	}
-}
-
-void	join_philos(t_philo *arr, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i <= n)
-		pthread_join(arr[i++].thread_id, NULL);
-}
-
 int	start_philo(t_philo *arr, t_info *info)
 {
 	int	i;
