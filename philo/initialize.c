@@ -21,11 +21,11 @@ int	init_info(int argc, char **argv, t_info *info)
 	info->t_to_sleep = ft_atol(argv[4]);
 	if (argc == 6)
 	{
-		info->max_eat_mode = 1;
+		info->is_max_eat_mode = 1;
 		info->max_eat = ft_atol(argv[5]);
 	}
 	if (info->n_of_philo <= 0 || info->t_to_die < 0 || info->t_to_eat < 0
-		|| info->t_to_sleep < 0 || (info->max_eat_mode && info->max_eat < 0))
+		|| info->t_to_sleep < 0 || (info->is_max_eat_mode && info->max_eat < 0))
 		return (1);
 	if (pthread_mutex_init(&(info->ready_mutex), NULL) != 0)
 		return (1);
@@ -65,6 +65,8 @@ void	action_philo(t_philo *p)
 {
 	pthread_mutex_lock(&(p->info->ready_mutex));
 	pthread_mutex_unlock(&(p->info->ready_mutex));
+	if (p->info->is_error)
+		return ;
 	while (1)
 	{
 		pthread_mutex_lock(&(p->info->rsc_mutex));
@@ -72,6 +74,15 @@ void	action_philo(t_philo *p)
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
 		usleep(500000);
 	}
+}
+
+void	join_philos(t_philo *arr, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i <= n)
+		pthread_join(arr[i++].thread_id, NULL);
 }
 
 int	start_philo(t_philo *arr, t_info *info)
@@ -82,18 +93,17 @@ int	start_philo(t_philo *arr, t_info *info)
 	i = 0;
 	while (i < info->n_of_philo)
 	{
-		printf("id:%d set\n", i);
 		if (pthread_create(&(arr[i].thread_id),
 				NULL, (void *)action_philo, &arr[i]) != 0)
 		{
+			info->is_error = 1;
+			join_philos(arr, i - 1);
 			pthread_mutex_unlock(&(info->ready_mutex));
 			return (1);
 		}
+		printf("id:%d, thread_id:%d set\n", i, (int)arr[i].thread_id);
 		i++;
 	}
 	pthread_mutex_unlock(&(info->ready_mutex));
-	i = 0;
-	while (i < info->n_of_philo)
-		pthread_join(arr[i++].thread_id, NULL);
 	return (0);
 }

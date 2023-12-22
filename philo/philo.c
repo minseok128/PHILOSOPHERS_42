@@ -24,5 +24,6 @@ int	main(int argc, char **argv)
 	if (init_philo_arr(&arr, &info))
 		return (1);
 	start_philo(arr, &info);
+	join_philos(arr, info.n_of_philo);
 	return (0);
 }

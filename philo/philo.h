@@ -25,10 +25,10 @@ typedef struct s_info {
 	long long		t_to_eat;
 	long long		t_to_sleep;
 	long long		max_eat;
-	int				max_eat_mode;
-	int				dead;
-	int				error;
-	int				end_philo;
+	int				is_max_eat_mode;
+	int				is_dead;
+	int				is_error;
+	int				n_of_end_philo;
 	pthread_mutex_t	ready_mutex;
 	pthread_mutex_t	rsc_mutex;
 }	t_info;
@@ -49,5 +49,6 @@ long long	ft_atol(const char *str);
 int			init_info(int argc, char **argv, t_info *info);
 int			init_philo_arr(t_philo **arr, t_info *info);
 int			start_philo(t_philo *arr, t_info *info);
+void		join_philos(t_philo *arr, int n);
 
 #endif
