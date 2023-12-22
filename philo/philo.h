@@ -21,6 +21,7 @@
 
 typedef struct s_info {
 	long long		n_of_philo;
+	long long		t_to_start;
 	long long		t_to_die;
 	long long		t_to_eat;
 	long long		t_to_sleep;
@@ -40,9 +41,9 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	t_info			*info;
 	int				id;
-	int				start;
-	int				eat_count;
-	long long		last_eat_time;
+	int				is_start;
+	int				n_of_eat;
+	long long		t_to_last_eat;
 }	t_philo;
 
 long long	ft_atol(const char *str);

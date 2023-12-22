@@ -63,7 +63,8 @@ int	init_philo_arr(t_philo **arr, t_info *info)
 
 int	start_philo(t_philo *arr, t_info *info)
 {
-	int	i;
+	int				i;
+	struct timeval	tv;
 
 	pthread_mutex_lock(&(info->ready_mutex));
 	i = 0;
@@ -80,6 +81,8 @@ int	start_philo(t_philo *arr, t_info *info)
 		printf("id:%d, thread_id:%d set\n", i, (int)arr[i].thread_id);
 		i++;
 	}
+	gettimeofday(&tv, NULL);
+	info->t_to_start = tv.tv_sec * 1000L + tv.tv_usec / 1000L;
 	pthread_mutex_unlock(&(info->ready_mutex));
 	return (0);
 }
