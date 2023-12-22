@@ -84,7 +84,7 @@ int	start_philo(t_philo *arr, t_info *info)
 	{
 		printf("id:%d set\n", i);
 		if (pthread_create(&(arr[i].thread_id),
-						   NULL,(void *)action_philo, &arr[i]) != 0)
+				NULL, (void *)action_philo, &arr[i]) != 0)
 		{
 			pthread_mutex_unlock(&(info->ready_mutex));
 			return (1);
