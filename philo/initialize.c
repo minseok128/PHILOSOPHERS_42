@@ -51,6 +51,7 @@ int	init_philo_arr(t_philo **arr, t_info *info)
 	i = 0;
 	while (i < info->n_of_philo)
 	{
+		pthread_mutex_init(&fork_arr[i], NULL);
 		memset(&(*arr)[i], 0, sizeof(t_philo));
 		(*arr)[i].info = info;
 		(*arr)[i].id = i + 1;
@@ -70,14 +71,14 @@ int	start_philo(t_philo *arr, t_info *info)
 	while (i < info->n_of_philo)
 	{
 		if (pthread_create(&(arr[i].thread_id),
-				NULL, (void *)action_philo, &arr[i]) != 0)
+				NULL, (void *)p_action, &arr[i]) != 0)
 		{
 			info->is_error = 1;
 			join_philos(arr, i - 1);
 			pthread_mutex_unlock(&(info->ready_mutex));
 			return (1);
 		}
-		printf("id:%d, thread_id:%d set\n", i, (int)arr[i].thread_id);
+		printf("id:%d, thread_id:%d, left:%p, right:%p\n", arr[i].id, (int)arr[i].thread_id, arr[i].left_fork, arr[i].right_fork);
 		i++;
 	}
 	info->t_to_start = get_time();
