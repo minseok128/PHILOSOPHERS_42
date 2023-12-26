@@ -49,8 +49,8 @@ typedef struct s_philo
 long long	get_time();
 long long	ft_atol(const char *str);
 int			init_info(int argc, char **argv, t_info *info);
-int			init_philo_arr(t_philo **arr, t_info *info);
-int			start_philo(t_philo *arr, t_info *info);
+int			init_philos(t_philo **arr, t_info *info);
+int			start_philos(t_philo *arr, t_info *info);
 void		join_philos(t_philo *arr, int n);
 long long	p_print(t_philo *p, char *str);
 void		p_action(t_philo *p);

@@ -37,7 +37,7 @@ int	init_info(int argc, char **argv, t_info *info)
 	return (0);
 }
 
-int	init_philo_arr(t_philo **arr, t_info *info)
+int	init_philos(t_philo **arr, t_info *info)
 {
 	pthread_mutex_t	*fork_arr;
 	int				i;
@@ -62,7 +62,7 @@ int	init_philo_arr(t_philo **arr, t_info *info)
 	return (0);
 }
 
-int	start_philo(t_philo *arr, t_info *info)
+int	start_philos(t_philo *arr, t_info *info)
 {
 	int	i;
 
