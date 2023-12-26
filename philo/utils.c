@@ -27,7 +27,16 @@ long long	p_print(t_philo *p, char *str)
 
 	if (p->info->is_error || p->info->is_dead)
 		return (-1);
-	time = get_time() - p->info->t_to_start;
-	printf("%lld %d %s", time, p->id, str);
+	time = get_time();
+	printf("%lld %d %s", time - p->info->t_to_start, p->id, str);
 	return (time);
+}
+
+void	join_philos(t_philo *arr, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i <= n)
+		pthread_join(arr[i++].thread_id, NULL);
 }
