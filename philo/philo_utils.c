@@ -12,20 +12,20 @@
 
 #include "philo.h"
 
-void	p_stop(t_info *info, long long limit, long long time, int sleep_time)
+void	p_stop(t_info *info, long long limit, long long time)
 {
 	pthread_mutex_lock(&(info->rsc_mutex));
 	while (!info->is_dead && limit > time)
 	{
 		pthread_mutex_unlock(&(info->rsc_mutex));
-		usleep(sleep_time);
+		usleep(info->n_of_philo);
 		time = get_time();
 		pthread_mutex_lock(&(info->rsc_mutex));
 	}
 	pthread_mutex_unlock(&(info->rsc_mutex));
 }
 
-void	p_sleep(t_philo *p, int sleep_time)
+void	p_sleep(t_philo *p)
 {
 	long long	limit_time;
 	long long	time;
@@ -36,7 +36,7 @@ void	p_sleep(t_philo *p, int sleep_time)
 	{
 		limit_time = time + p->info->t_to_sleep;
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
-		p_stop(p->info, limit_time, time, sleep_time);
+		p_stop(p->info, limit_time, time);
 		pthread_mutex_lock(&(p->info->rsc_mutex));
 		time = p_print(p, "is thinking\n");
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
@@ -45,7 +45,7 @@ void	p_sleep(t_philo *p, int sleep_time)
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
 }
 
-void	p_eat(t_philo *p, int sleep_time)
+void	p_eat(t_philo *p)
 {
 	long long	limit;
 	long long	time;
@@ -57,7 +57,7 @@ void	p_eat(t_philo *p, int sleep_time)
 		p->t_to_last_eat = time;
 		limit = time + p->info->t_to_eat;
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
-		p_stop(p->info, limit, time, sleep_time);
+		p_stop(p->info, limit, time);
 		p->n_of_eat += p->info->is_max_eat_mode;
 	}
 	else
@@ -77,7 +77,6 @@ void	p_take_fork(t_philo *p, int right)
 
 void	p_release_fork(t_philo *p, int right)
 {
-	// p_print(p, "has release a fork\n");
 	if (right)
 		pthread_mutex_unlock(p->right_fork);
 	else
@@ -102,10 +101,12 @@ void	p_action(t_philo *p)
 			pthread_mutex_unlock(&(p->info->rsc_mutex));
 			p_take_fork(p, p->id % 2);
 			p_take_fork(p, !(p->id % 2));
-			p_eat(p, p->info->n_of_philo);
+			p_eat(p);
 			p_release_fork(p, !(p->id % 2));
 			p_release_fork(p, p->id % 2);
-			p_sleep(p, p->info->n_of_philo);
+			p_sleep(p);
+			pthread_mutex_lock(&(p->info->rsc_mutex));
 		}
+		pthread_mutex_unlock(&(p->info->rsc_mutex));
 	}
 }
