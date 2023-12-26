@@ -15,13 +15,14 @@
 int	main(int argc, char **argv)
 {
 	t_info	info;
-	t_philo	*arr;
+	t_philo	*philos;
 
 	if (init_info(argc, argv, &info))
 		return (1);
-	if (init_philos(&arr, &info))
+	if (init_philos(&philos, &info))
 		return (1);
-	start_philos(arr, &info);
-	join_philos(arr, info.n_of_philo);
+	start_philos(philos, &info);
+	start_monitor(philos, &info);
+	join_philos(philos, info.n_of_philo);
 	return (0);
 }

@@ -41,7 +41,6 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	t_info			*info;
 	int				id;
-	int				is_start;
 	int				n_of_eat;
 	long long		t_to_last_eat;
 }	t_philo;
@@ -54,5 +53,6 @@ int			start_philos(t_philo *arr, t_info *info);
 void		join_philos(t_philo *arr, int n);
 long long	p_print(t_philo *p, char *str);
 void		p_action(t_philo *p);
+void		start_monitor(t_philo *philos, t_info *info);
 
 #endif

@@ -83,13 +83,12 @@ void	p_action(t_philo *p)
 {
 	pthread_mutex_lock(&(p->info->ready_mutex));
     pthread_mutex_lock(&(p->info->rsc_mutex));
-    p->is_start = 1;
     p->t_to_last_eat = p->info->t_to_start;
 	pthread_mutex_unlock(&(p->info->rsc_mutex));
 	pthread_mutex_unlock(&(p->info->ready_mutex));
 	if (p->info->is_error)
 		return ;
-	while (1)
+	while (!p->info->is_dead && !p->info->is_error)
 	{
 		pthread_mutex_lock(&(p->info->rsc_mutex));
 		while (!p->info->is_dead && !p->info->is_error)
