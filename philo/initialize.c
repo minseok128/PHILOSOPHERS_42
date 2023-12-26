@@ -14,6 +14,8 @@
 
 int	init_info(int argc, char **argv, t_info *info)
 {
+	if (!(argc == 5 || argc == 6))
+		return (1);
 	memset(info, 0, sizeof(t_info));
 	info->n_of_philo = ft_atol(argv[1]);
 	info->t_to_die = ft_atol(argv[2]);

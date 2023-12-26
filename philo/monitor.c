@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michang <michang@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/25 16:18:56 by michang           #+#    #+#             */
-/*   Updated: 2023/11/25 16:18:59 by michang          ###   ########.fr       */
+/*   Created: 2023/12/26 19:45:12 by michang           #+#    #+#             */
+/*   Updated: 2023/12/26 19:45:13 by michang          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void	start_monitor()
 {
-	t_info	info;
-	t_philo	*arr;
-
-	if (init_info(argc, argv, &info))
-		return (1);
-	if (init_philos(&arr, &info))
-		return (1);
-	start_philos(arr, &info);
-	join_philos(arr, info.n_of_philo);
-	return (0);
+	int i;
 }
