@@ -12,10 +12,10 @@
 
 #include "philo.h"
 
-void	p_stop(t_info *info, long long limit, long long time)
+void	p_stop(t_info *info, long long target_time, long long time)
 {
 	pthread_mutex_lock(&(info->rsc_mutex));
-	while (!info->is_dead && limit > time)
+	while (!info->is_dead && target_time > time)
 	{
 		pthread_mutex_unlock(&(info->rsc_mutex));
 		usleep(info->n_of_philo);
@@ -27,16 +27,14 @@ void	p_stop(t_info *info, long long limit, long long time)
 
 void	p_sleep(t_philo *p)
 {
-	long long	limit_time;
 	long long	time;
 
 	pthread_mutex_lock(&(p->info->rsc_mutex));
 	time = p_print(p, "is sleeping\n");
 	if (time != -1)
 	{
-		limit_time = time + p->info->t_to_sleep;
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
-		p_stop(p->info, limit_time, time);
+		p_stop(p->info, time + p->info->t_to_sleep, time);
 		pthread_mutex_lock(&(p->info->rsc_mutex));
 		time = p_print(p, "is thinking\n");
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
@@ -47,7 +45,6 @@ void	p_sleep(t_philo *p)
 
 void	p_eat(t_philo *p)
 {
-	long long	limit;
 	long long	time;
 
 	pthread_mutex_lock(&(p->info->rsc_mutex));
@@ -55,10 +52,9 @@ void	p_eat(t_philo *p)
 	if (time != -1)
 	{
 		p->t_to_last_eat = time;
-		limit = time + p->info->t_to_eat;
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
-		p_stop(p->info, limit, time);
-		p->n_of_eat += p->info->is_max_eat_mode;
+		p_stop(p->info, time + p->info->t_to_eat, time);
+		p->n_of_eat++;
 	}
 	else
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
@@ -102,8 +98,8 @@ void	p_action(t_philo *p)
 			p_take_fork(p, p->id % 2);
 			p_take_fork(p, !(p->id % 2));
 			p_eat(p);
-			p_release_fork(p, !(p->id % 2));
 			p_release_fork(p, p->id % 2);
+			p_release_fork(p, !(p->id % 2));
 			p_sleep(p);
 			pthread_mutex_lock(&(p->info->rsc_mutex));
 		}
