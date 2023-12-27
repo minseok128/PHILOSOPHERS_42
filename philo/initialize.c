@@ -48,7 +48,7 @@ int	init_philos(t_philo **philos, t_info *info)
 	printf("philos add:%p\n", philos);
 	if (!(*philos))
 		return (1);
-	memset(philos, 0, sizeof(t_philo) * info->n_of_philo);
+	memset(*philos, 0, sizeof(t_philo) * info->n_of_philo);
 	fork_arr = malloc(sizeof(pthread_mutex_t) * info->n_of_philo);
 	if (!fork_arr)
 		return (1);
