@@ -17,7 +17,6 @@ long long	get_time()
 	struct timeval	tv;
 	
 	gettimeofday(&tv, NULL);
-	// printf("get_time: %lld, %lld\n", (long long)tv.tv_sec, (long long)tv.tv_usec);
 	return ((long long)tv.tv_sec * 1000L + (long long)tv.tv_usec / 1000L);
 }
 
@@ -37,6 +36,12 @@ void	join_philos(t_philo *arr, int n)
 	int	i;
 
 	i = 0;
-	while (i <= n)
+	while (i < n)
 		pthread_join(arr[i++].thread_id, NULL);
+}
+
+int	print_error()
+{
+	printf("error\n");
+	return (1);
 }

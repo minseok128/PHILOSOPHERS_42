@@ -46,6 +46,7 @@ typedef struct s_philo
 }	t_philo;
 
 long long	get_time();
+int			print_error();
 long long	ft_atol(const char *str);
 int			init_info(int argc, char **argv, t_info *info);
 int			init_philos(t_philo **arr, t_info *info);

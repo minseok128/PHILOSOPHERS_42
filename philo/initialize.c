@@ -39,14 +39,16 @@ int	init_info(int argc, char **argv, t_info *info)
 	return (0);
 }
 
-int	init_philos(t_philo **arr, t_info *info)
+int	init_philos(t_philo **philos, t_info *info)
 {
 	pthread_mutex_t	*fork_arr;
 	int				i;
 
-	*arr = malloc(sizeof(t_philo) * info->n_of_philo);
-	if (!*arr)
+	*philos = malloc(sizeof(t_philo) * info->n_of_philo);
+	printf("philos add:%p\n", philos);
+	if (!(*philos))
 		return (1);
+	memset(philos, 0, sizeof(t_philo) * info->n_of_philo);
 	fork_arr = malloc(sizeof(pthread_mutex_t) * info->n_of_philo);
 	if (!fork_arr)
 		return (1);
@@ -54,11 +56,10 @@ int	init_philos(t_philo **arr, t_info *info)
 	while (i < info->n_of_philo)
 	{
 		pthread_mutex_init(&fork_arr[i], NULL);
-		memset(&(*arr)[i], 0, sizeof(t_philo));
-		(*arr)[i].info = info;
-		(*arr)[i].id = i + 1;
-		(*arr)[i].left_fork = &fork_arr[i];
-		(*arr)[i].right_fork = &fork_arr[(i + 1) % info->n_of_philo];
+		(*philos)[i].info = info;
+		(*philos)[i].id = i + 1;
+		(*philos)[i].left_fork = &fork_arr[i];
+		(*philos)[i].right_fork = &fork_arr[(i + 1) % info->n_of_philo];
 		i++;
 	}
 	return (0);
@@ -76,11 +77,11 @@ int	start_philos(t_philo *arr, t_info *info)
 				NULL, (void *)p_action, &arr[i]) != 0)
 		{
 			info->is_error = 1;
-			join_philos(arr, i - 1);
+			join_philos(arr, i);
 			pthread_mutex_unlock(&(info->ready_mutex));
 			return (1);
 		}
-		printf("id:%d, thread_id:%d, left:%p, right:%p\n", arr[i].id, (int)arr[i].thread_id, arr[i].left_fork, arr[i].right_fork);
+		printf("id:%d, left:%p, right:%p\n", arr[i].id, arr[i].left_fork, arr[i].right_fork);
 		i++;
 	}
 	info->t_to_start = get_time();

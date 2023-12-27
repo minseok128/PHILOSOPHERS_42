@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = cc
-CFLAG = -Wall -Wextra -Werror
+CFLAG = -Wall -Wextra -Werror -fsanitize=thread
 
 DIR = ./
 BASE = main atol initialize philo_utils utils monitor
@@ -22,7 +22,7 @@ NAME = philo
 all : $(NAME)
 
 $(NAME) : $(OBJ)
-	$(CC) $(CFLAG) -fsanitize=thread -I $(dir $<) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAG) -I $(dir $<) $(OBJ) -o $(NAME)
 
 %.o : %.c
 	$(CC) $(CFLAG) -I $(dir $<) -c $< -o $@
