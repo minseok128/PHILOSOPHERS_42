@@ -73,8 +73,8 @@ int	start_philos(t_philo *arr, t_info *info)
 				NULL, (void *)p_action, &arr[i]) != 0)
 		{
 			info->is_error = 1;
-			join_philos(arr, i);
 			pthread_mutex_unlock(&(info->ready_mutex));
+			join_philos(arr, i);
 			return (1);
 		}
 		i++;

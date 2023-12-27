@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-long long	get_time()
+long long	get_time(void)
 {
 	struct timeval	tv;
 	

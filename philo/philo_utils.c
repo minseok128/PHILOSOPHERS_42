@@ -15,7 +15,7 @@
 void	p_stop(t_info *info, long long target_time, long long time)
 {
 	pthread_mutex_lock(&(info->rsc_mutex));
-	while (!info->is_dead && target_time > time)
+	while (!info->is_dead && !info->is_error && target_time > time)
 	{
 		pthread_mutex_unlock(&(info->rsc_mutex));
 		usleep(info->n_of_philo);
@@ -41,7 +41,7 @@ void	p_sleep(t_philo *p)
 		if (p->info->t_to_must_think >= 0 && p->info->n_of_philo % 2)
 		{
 			p_stop(p->info, time + p->info->t_to_must_think, time);
-			usleep(200);
+			usleep(100);
 		}
 	}
 	else
@@ -84,7 +84,7 @@ void	p_release_fork(t_philo *p, int right)
 		pthread_mutex_unlock(p->left_fork);
 }
 
-void	p_action(t_philo *p)
+void	*p_action(t_philo *p)
 {
 	long long	time;
 
@@ -93,7 +93,7 @@ void	p_action(t_philo *p)
     p->t_to_last_eat = p->info->t_to_start;
 	pthread_mutex_unlock(&(p->info->rsc_mutex));
 	pthread_mutex_unlock(&(p->info->ready_mutex));
-	if (p->id % 2 == 0 || p->id == p->info->n_of_philo)
+	if (p->id % 2 == 0 || (p->id % 2 && p->id == p->info->n_of_philo))
 	{
    		pthread_mutex_lock(&(p->info->rsc_mutex));
 		time = p_print(p, "is thinking\n");
@@ -113,4 +113,5 @@ void	p_action(t_philo *p)
 		pthread_mutex_lock(&(p->info->rsc_mutex));
 	}
 	pthread_mutex_unlock(&(p->info->rsc_mutex));
+	return (0);
 }

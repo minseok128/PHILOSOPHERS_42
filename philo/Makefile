@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = cc
-CFLAG = -Wall -Wextra -Werror -fsanitize=thread
+CFLAG = -Wall -Wextra -Werror
 
 DIR = ./
 BASE = main atol initialize philo_utils utils monitor

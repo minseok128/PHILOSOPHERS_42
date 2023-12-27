@@ -53,7 +53,7 @@ int			init_philos(t_philo **arr, t_info *info);
 int			start_philos(t_philo *arr, t_info *info);
 void		join_philos(t_philo *arr, int n);
 long long	p_print(t_philo *p, char *str);
-void		p_action(t_philo *p);
+void		*p_action(t_philo *p);
 void		start_monitor(t_philo *philos, t_info *info);
 
 #endif

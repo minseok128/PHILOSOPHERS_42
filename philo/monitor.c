@@ -31,9 +31,9 @@ void	start_monitor(t_philo *philos, t_info *info)
 	while (1)
 	{
 		i = 0;
-		pthread_mutex_lock(&(info->rsc_mutex));
 		while (i < info->n_of_philo)
 		{
+			pthread_mutex_lock(&(info->rsc_mutex));
 			p_check(info, &(philos[i]));
 			if (info->is_dead || info->is_error)
 			{
@@ -41,7 +41,7 @@ void	start_monitor(t_philo *philos, t_info *info)
 				return ;
 			}
 			i++;
+			pthread_mutex_unlock(&(info->rsc_mutex));
 		}
-		pthread_mutex_unlock(&(info->rsc_mutex));
 	}
 }
