@@ -14,7 +14,7 @@
 
 int	init_info(int argc, char **argv, t_info *info)
 {
-	if (!(argc == 5 || argc == 6))
+	if (argc < 5 || argc > 6)
 		return (1);
 	memset(info, 0, sizeof(t_info));
 	info->n_of_philo = ft_atol(argv[1]);
@@ -22,20 +22,17 @@ int	init_info(int argc, char **argv, t_info *info)
 	info->t_to_eat = ft_atol(argv[3]);
 	info->t_to_sleep = ft_atol(argv[4]);
 	if (argc == 6)
-	{
-		info->is_max_eat_mode = 1;
-		info->max_eat = ft_atol(argv[5]);
-	}
-	if (info->n_of_philo <= 0 || info->t_to_die < 0 || info->t_to_eat < 0
-		|| info->t_to_sleep < 0 || (info->is_max_eat_mode && info->max_eat < 0))
-		return (1);
-	if (pthread_mutex_init(&(info->ready_mutex), NULL) != 0)
+		info->n_of_max_eat = ft_atol(argv[5]);
+	if ((info->n_of_philo <= 0 || info->t_to_die < 0 || info->t_to_eat < 0
+		|| info->t_to_sleep < 0 || (argc == 6 && info->n_of_max_eat < 0))
+		|| (pthread_mutex_init(&(info->ready_mutex), NULL) != 0))
 		return (1);
 	if (pthread_mutex_init(&(info->rsc_mutex), NULL) != 0)
 	{
 		pthread_mutex_destroy(&(info->ready_mutex));
 		return (1);
 	}
+	info->t_to_must_think = info->t_to_eat - info->t_to_sleep;
 	return (0);
 }
 
@@ -45,7 +42,6 @@ int	init_philos(t_philo **philos, t_info *info)
 	int				i;
 
 	*philos = malloc(sizeof(t_philo) * info->n_of_philo);
-	printf("philos add:%p\n", philos);
 	if (!(*philos))
 		return (1);
 	memset(*philos, 0, sizeof(t_philo) * info->n_of_philo);
@@ -81,7 +77,6 @@ int	start_philos(t_philo *arr, t_info *info)
 			pthread_mutex_unlock(&(info->ready_mutex));
 			return (1);
 		}
-		printf("id:%d, left:%p, right:%p\n", arr[i].id, arr[i].left_fork, arr[i].right_fork);
 		i++;
 	}
 	info->t_to_start = get_time();

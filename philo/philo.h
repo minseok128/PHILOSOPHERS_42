@@ -25,8 +25,8 @@ typedef struct s_info {
 	long long		t_to_die;
 	long long		t_to_eat;
 	long long		t_to_sleep;
-	long long		max_eat;
-	int				is_max_eat_mode;
+	long long		n_of_max_eat;
+	long long		t_to_must_think;
 	int				is_dead;
 	int				is_error;
 	int				n_of_end_philo;

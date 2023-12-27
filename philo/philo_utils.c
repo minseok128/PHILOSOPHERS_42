@@ -38,6 +38,11 @@ void	p_sleep(t_philo *p)
 		pthread_mutex_lock(&(p->info->rsc_mutex));
 		time = p_print(p, "is thinking\n");
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
+		if (p->info->t_to_must_think >= 0 && p->info->n_of_philo % 2)
+		{
+			p_stop(p->info, time + p->info->t_to_must_think, time);
+			usleep(200);
+		}
 	}
 	else
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
@@ -81,27 +86,31 @@ void	p_release_fork(t_philo *p, int right)
 
 void	p_action(t_philo *p)
 {
+	long long	time;
+
 	pthread_mutex_lock(&(p->info->ready_mutex));
     pthread_mutex_lock(&(p->info->rsc_mutex));
     p->t_to_last_eat = p->info->t_to_start;
 	pthread_mutex_unlock(&(p->info->rsc_mutex));
 	pthread_mutex_unlock(&(p->info->ready_mutex));
-	if (p->info->is_error)
-		return ;
+	if (p->id % 2 == 0 || p->id == p->info->n_of_philo)
+	{
+   		pthread_mutex_lock(&(p->info->rsc_mutex));
+		time = p_print(p, "is thinking\n");
+		pthread_mutex_unlock(&(p->info->rsc_mutex));
+		p_stop(p->info, time + p->info->t_to_eat / 2, time);
+	}
+	pthread_mutex_lock(&(p->info->rsc_mutex));
 	while (!p->info->is_dead && !p->info->is_error)
 	{
-		pthread_mutex_lock(&(p->info->rsc_mutex));
-		while (!p->info->is_dead && !p->info->is_error)
-		{
-			pthread_mutex_unlock(&(p->info->rsc_mutex));
-			p_take_fork(p, p->id % 2);
-			p_take_fork(p, !(p->id % 2));
-			p_eat(p);
-			p_release_fork(p, p->id % 2);
-			p_release_fork(p, !(p->id % 2));
-			p_sleep(p);
-			pthread_mutex_lock(&(p->info->rsc_mutex));
-		}
 		pthread_mutex_unlock(&(p->info->rsc_mutex));
+		p_take_fork(p, p->id % 2);
+		p_take_fork(p, !(p->id % 2));
+		p_eat(p);
+		p_release_fork(p, p->id % 2);
+		p_release_fork(p, !(p->id % 2));
+		p_sleep(p);
+		pthread_mutex_lock(&(p->info->rsc_mutex));
 	}
+	pthread_mutex_unlock(&(p->info->rsc_mutex));
 }
