@@ -17,7 +17,8 @@ void	p_check(t_info *info, t_philo *p)
 	long long	time;
 
 	time = get_time();
-	if (p->t_to_last_eat && time - p->t_to_last_eat >= info->t_to_die)
+	if (!(p->n_of_eat == p->info->n_of_max_eat)
+		&& p->t_to_last_eat && time - p->t_to_last_eat >= info->t_to_die)
 	{
 		info->is_dead = 1;
 		printf("%lld %d died\n", time - info->t_to_start, p->id);
@@ -36,6 +37,11 @@ void	start_monitor(t_philo *philos, t_info *info)
 			pthread_mutex_lock(&(info->rsc_mutex));
 			p_check(info, &(philos[i]));
 			if (info->is_dead || info->is_error)
+			{
+				pthread_mutex_unlock(&(info->rsc_mutex));
+				return ;
+			}
+			if (info->n_of_end_philo == info->n_of_philo)
 			{
 				pthread_mutex_unlock(&(info->rsc_mutex));
 				return ;

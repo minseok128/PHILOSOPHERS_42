@@ -41,7 +41,7 @@ void	p_sleep(t_philo *p)
 		if (p->info->t_to_must_think >= 0 && p->info->n_of_philo % 2)
 		{
 			p_stop(p->info, time + p->info->t_to_must_think, time);
-			usleep(100);
+			usleep(400);
 		}
 	}
 	else
@@ -109,6 +109,15 @@ void	*p_action(t_philo *p)
 		p_eat(p);
 		p_release_fork(p, p->id % 2);
 		p_release_fork(p, !(p->id % 2));
+		if (p->n_of_eat == p->info->n_of_max_eat)
+		{
+			pthread_mutex_lock(&(p->info->rsc_mutex));
+			p_print(p, "is sleeping\n");
+			p->info->n_of_end_philo++;
+			// printf("done:%d, n of end: %d\n", p->id, p->info->n_of_end_philo);
+			pthread_mutex_unlock(&(p->info->rsc_mutex));
+			return (0);
+		}
 		p_sleep(p);
 		pthread_mutex_lock(&(p->info->rsc_mutex));
 	}
