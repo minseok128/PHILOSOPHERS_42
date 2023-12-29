@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	p_check(t_info *info, t_philo *p)
+static void	p_check(t_info *info, t_philo *p)
 {
 	long long	time;
 
