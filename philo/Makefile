@@ -12,7 +12,6 @@
 
 CC = cc
 CFLAG = -Wall -Wextra -Werror
-
 DIR = ./
 BASE = main initialize philo_run philo_utils utils monitor
 SRC = $(addprefix $(DIR), $(addsuffix .c, $(BASE)))
@@ -36,6 +35,3 @@ fclean : clean
 re : clean all
 
 .PHONY : all clean fclean re
-
-test : all clean
-	./$(NAME) 4 410 200 200

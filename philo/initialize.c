@@ -24,7 +24,7 @@ int	init_info(int argc, char **argv, t_info *info)
 	if (argc == 6)
 		info->n_of_max_eat = ft_atoll(argv[5]);
 	if ((info->n_of_philo <= 0 || info->t_to_die < 0 || info->t_to_eat < 0
-			|| info->t_to_sleep < 0 || (argc == 6 && info->n_of_max_eat < 0))
+			|| info->t_to_sleep < 0 || (argc == 6 && info->n_of_max_eat <= 0))
 		|| (pthread_mutex_init(&(info->ready_mutex), NULL) != 0))
 		return (1);
 	if (pthread_mutex_init(&(info->rsc_mutex), NULL) != 0)
@@ -41,15 +41,10 @@ int	init_philos(t_philo **philos, t_info *info)
 	int	i;
 
 	*philos = malloc(sizeof(t_philo) * info->n_of_philo);
-	if (!(*philos))
-		return (1);
-	memset(*philos, 0, sizeof(t_philo) * info->n_of_philo);
 	info->fork_arr = malloc(sizeof(pthread_mutex_t) * info->n_of_philo);
-	if (!(info->fork_arr))
-	{
-		free(*philos);
-		return (1);
-	}
+	if (!(*philos) || !(info->fork_arr))
+		return (clean_all(*philos, info, 0));
+	memset(*philos, 0, sizeof(t_philo) * info->n_of_philo);
 	i = 0;
 	while (i < info->n_of_philo)
 	{

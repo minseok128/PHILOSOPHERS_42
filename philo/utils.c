@@ -68,7 +68,9 @@ int	clean_all(t_philo *philos, t_info *info, int n)
 	i = 0;
 	while (i < n)
 		pthread_mutex_destroy(&(info->fork_arr[i++]));
-	free(philos);
-	free(info->fork_arr);
+	if (philos)
+		free(philos);
+	if (info->fork_arr)
+		free(info->fork_arr);
 	return (1);
 }
