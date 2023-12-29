@@ -79,7 +79,6 @@ void		p_stop(t_info *info, long long target_time, long long time);
 
 // util functions
 long long	get_time(void);
-int			print_error(void);
 long long	ft_atoll(const char *str);
 
 #endif

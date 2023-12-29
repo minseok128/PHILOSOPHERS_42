@@ -59,12 +59,6 @@ long long	p_print(t_philo *p, char *str)
 	return (time);
 }
 
-int	print_error(void)
-{
-	printf("error\n");
-	return (1);
-}
-
 int	clean_all(t_philo *philos, t_info *info, int n)
 {
 	int	i;
