@@ -61,7 +61,6 @@ int	init_philos(t_philo **philos, t_info *info)
 		(*philos)[i].right_fork = &(info->fork_arr[(i + 1) % info->n_of_philo]);
 		i++;
 	}
-	info->program_state = RUN;
 	return (0);
 }
 
@@ -83,6 +82,7 @@ int	start_philos(t_philo *philos, t_info *info)
 		}
 		i++;
 	}
+	info->program_state = RUN;
 	info->t_to_start = get_time();
 	pthread_mutex_unlock(&(info->ready_mutex));
 	return (0);

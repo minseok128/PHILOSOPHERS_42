@@ -25,7 +25,7 @@ void	p_check(t_info *info, t_philo *p)
 	}
 }
 
-int	start_monitor(t_philo *philos, t_info *info)
+void	start_monitor(t_philo *philos, t_info *info)
 {
 	int	i;
 
@@ -40,7 +40,8 @@ int	start_monitor(t_philo *philos, t_info *info)
 				|| info->n_of_end_philo == info->n_of_philo)
 			{
 				info->program_state = DONE;
-				return (pthread_mutex_unlock(&(info->rsc_mutex)));
+				pthread_mutex_unlock(&(info->rsc_mutex));
+				return ;
 			}
 			i++;
 			pthread_mutex_unlock(&(info->rsc_mutex));

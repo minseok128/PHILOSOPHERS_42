@@ -64,7 +64,7 @@ typedef struct s_philo
 int			init_info(int argc, char **argv, t_info *info);
 int			init_philos(t_philo **arr, t_info *info);
 int			start_philos(t_philo *arr, t_info *info);
-int			start_monitor(t_philo *philos, t_info *info);
+void		start_monitor(t_philo *philos, t_info *info);
 void		join_philos(t_philo *arr, int n);
 int			clean_all(t_philo *philos, t_info *info, int n);
 

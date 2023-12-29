@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 	if (init_info(argc, argv, &info)
 		|| init_philos(&philos, &info)
 		|| start_philos(philos, &info))
-		return (printf("ERROR!") & 1);
+		return (printf("ERROR") & 1);
 	start_monitor(philos, &info);
 	join_philos(philos, info.n_of_philo);
 	clean_all(philos, &info, info.n_of_end_philo);
