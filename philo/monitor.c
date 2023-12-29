@@ -17,9 +17,9 @@ void	p_check(t_info *info, t_philo *p)
 	long long	time;
 
 	time = get_time();
-	if (!(p->n_of_eat == info->n_of_max_eat)
-		&& p->t_to_last_eat && time - p->t_to_last_eat >= info->t_to_die)
+	if (p->state == RUN && time - p->t_to_last_eat >= info->t_to_die)
 	{
+		p->state = DEAD;
 		info->is_dead = 1;
 		printf("%lld %d died\n", time - info->t_to_start, p->id);
 	}

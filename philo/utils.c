@@ -40,7 +40,7 @@ void	join_philos(t_philo *arr, int n)
 		pthread_join(arr[i++].thread_id, NULL);
 }
 
-int	print_error()
+int	print_error(void)
 {
 	printf("error\n");
 	return (1);

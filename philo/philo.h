@@ -35,6 +35,13 @@ typedef struct s_info {
 	pthread_mutex_t	*fork_arr;
 }	t_info;
 
+typedef enum e_p_state {
+	READY = 0,
+	RUN,
+	DONE,
+	DEAD
+}	t_p_state;
+
 typedef struct s_philo
 {
 	pthread_t		thread_id;
@@ -43,19 +50,12 @@ typedef struct s_philo
 	t_info			*info;
 	int				id;
 	int				n_of_eat;
-	int				is_done;
+	t_p_state		state;
 	long long		t_to_last_eat;
 }	t_philo;
 
-# define	P_LIVE 0;
-# define	P_DONE 1;
-# define	P_DEAD 2;
-
-# define	FALSE 0;
-# define	TRUE 1;
-
-long long	get_time();
-int			print_error();
+long long	get_time(void);
+int			print_error(void);
 long long	ft_atol(const char *str);
 int			init_info(int argc, char **argv, t_info *info);
 int			init_philos(t_philo **arr, t_info *info);
