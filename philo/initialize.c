@@ -38,24 +38,23 @@ int	init_info(int argc, char **argv, t_info *info)
 
 int	init_philos(t_philo **philos, t_info *info)
 {
-	pthread_mutex_t	*fork_arr;
-	int				i;
+	int	i;
 
 	*philos = malloc(sizeof(t_philo) * info->n_of_philo);
 	if (!(*philos))
 		return (1);
 	memset(*philos, 0, sizeof(t_philo) * info->n_of_philo);
-	fork_arr = malloc(sizeof(pthread_mutex_t) * info->n_of_philo);
-	if (!fork_arr)
+	info->fork_arr = malloc(sizeof(pthread_mutex_t) * info->n_of_philo);
+	if (!(info->fork_arr))
 		return (1);
 	i = 0;
 	while (i < info->n_of_philo)
 	{
-		pthread_mutex_init(&fork_arr[i], NULL);
+		pthread_mutex_init(&(info->fork_arr[i]), NULL);
 		(*philos)[i].info = info;
 		(*philos)[i].id = i + 1;
-		(*philos)[i].left_fork = &fork_arr[i];
-		(*philos)[i].right_fork = &fork_arr[(i + 1) % info->n_of_philo];
+		(*philos)[i].left_fork = &(info->fork_arr[i]);
+		(*philos)[i].right_fork = &(info->fork_arr[(i + 1) % info->n_of_philo]);
 		i++;
 	}
 	return (0);
