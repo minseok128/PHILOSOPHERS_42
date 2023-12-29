@@ -19,6 +19,13 @@
 # include <stdio.h>
 # include <string.h>
 
+typedef enum e_program_state {
+	READY = 0,
+	RUN,
+	DONE,
+	ERROR
+}	t_program_state;
+
 typedef struct s_info {
 	long long		n_of_philo;
 	long long		t_to_start;
@@ -27,20 +34,19 @@ typedef struct s_info {
 	long long		t_to_sleep;
 	long long		n_of_max_eat;
 	long long		t_to_must_think;
-	int				is_dead;
-	int				is_error;
 	int				n_of_end_philo;
+	t_program_state	program_state;
 	pthread_mutex_t	ready_mutex;
 	pthread_mutex_t	rsc_mutex;
 	pthread_mutex_t	*fork_arr;
 }	t_info;
 
-typedef enum e_p_state {
-	READY = 0,
-	RUN,
-	DONE,
-	DEAD
-}	t_p_state;
+typedef enum e_philo_state {
+	P_READY = 0,
+	P_RUN,
+	P_DONE,
+	P_DEAD
+}	t_philo_state;
 
 typedef struct s_philo
 {
@@ -50,19 +56,29 @@ typedef struct s_philo
 	t_info			*info;
 	int				id;
 	int				n_of_eat;
-	t_p_state		state;
+	t_philo_state	state;
 	long long		t_to_last_eat;
 }	t_philo;
 
-long long	get_time(void);
-int			print_error(void);
-long long	ft_atol(const char *str);
+// program function
 int			init_info(int argc, char **argv, t_info *info);
 int			init_philos(t_philo **arr, t_info *info);
 int			start_philos(t_philo *arr, t_info *info);
-void		join_philos(t_philo *arr, int n);
-long long	p_print(t_philo *p, char *str);
-void		*p_action(t_philo *p);
 int			start_monitor(t_philo *philos, t_info *info);
+void		join_philos(t_philo *arr, int n);
+
+// philo function
+void		*p_run(t_philo *p);
+long long	p_print(t_philo *p, char *str);
+void		p_eat(t_philo *p);
+void		p_take_fork(t_philo *p, int right);
+void		p_release_fork(t_philo *p, int right);
+void		p_sleep(t_philo *p);
+void		p_stop(t_info *info, long long target_time, long long time);
+
+// utilize function
+long long	get_time(void);
+int			print_error(void);
+long long	ft_atoll(const char *str);
 
 #endif

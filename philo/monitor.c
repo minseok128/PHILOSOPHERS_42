@@ -17,17 +17,17 @@ void	p_check(t_info *info, t_philo *p)
 	long long	time;
 
 	time = get_time();
-	if (p->state == RUN && time - p->t_to_last_eat >= info->t_to_die)
+	if (p->state == P_RUN && time - p->t_to_last_eat >= info->t_to_die)
 	{
-		p->state = DEAD;
-		info->is_dead = 1;
+		p->state = P_DEAD;
+		info->program_state = DONE;
 		printf("%lld %d died\n", time - info->t_to_start, p->id);
 	}
 }
 
 int	start_monitor(t_philo *philos, t_info *info)
 {
-	int i;
+	int	i;
 
 	while (1)
 	{
@@ -36,9 +36,12 @@ int	start_monitor(t_philo *philos, t_info *info)
 		{
 			pthread_mutex_lock(&(info->rsc_mutex));
 			p_check(info, &(philos[i]));
-			if (info->is_dead || info->is_error
+			if (info->program_state != RUN
 				|| info->n_of_end_philo == info->n_of_philo)
+			{
+				info->program_state = DONE;
 				return (pthread_mutex_unlock(&(info->rsc_mutex)));
+			}
 			i++;
 			pthread_mutex_unlock(&(info->rsc_mutex));
 		}
