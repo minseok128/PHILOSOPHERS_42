@@ -32,8 +32,8 @@ typedef struct s_info {
 	long long		t_to_die;
 	long long		t_to_eat;
 	long long		t_to_sleep;
-	long long		n_of_max_eat;
 	long long		t_to_must_think;
+	long long		n_of_max_eat;
 	int				n_of_end_philo;
 	t_program_state	program_state;
 	pthread_mutex_t	ready_mutex;
@@ -54,13 +54,13 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	t_info			*info;
+	t_philo_state	state;
 	int				id;
 	int				n_of_eat;
-	t_philo_state	state;
 	long long		t_to_last_eat;
 }	t_philo;
 
-// program function
+// program functions
 int			init_info(int argc, char **argv, t_info *info);
 int			init_philos(t_philo **arr, t_info *info);
 int			start_philos(t_philo *arr, t_info *info);
@@ -68,7 +68,7 @@ int			start_monitor(t_philo *philos, t_info *info);
 void		join_philos(t_philo *arr, int n);
 int			clean_all(t_philo *philos, t_info *info, int n);
 
-// philo function
+// each philo functions
 void		*p_run(t_philo *p);
 long long	p_print(t_philo *p, char *str);
 void		p_eat(t_philo *p);
@@ -77,7 +77,7 @@ void		p_release_fork(t_philo *p, int right);
 void		p_sleep(t_philo *p);
 void		p_stop(t_info *info, long long target_time, long long time);
 
-// utilize function
+// util functions
 long long	get_time(void);
 int			print_error(void);
 long long	ft_atoll(const char *str);
