@@ -17,12 +17,12 @@ int	main(int argc, char **argv)
 	t_info	info;
 	t_philo	*philos;
 
-	if (init_info(argc, argv, &info))
+	if (init_info(argc, argv, &info)
+		|| init_philos(&philos, &info)
+		|| start_philos(philos, &info))
 		return (print_error());
-	if (init_philos(&philos, &info))
-		return (print_error());
-	start_philos(philos, &info);
 	start_monitor(philos, &info);
 	join_philos(philos, info.n_of_philo);
+	clean_all(philos, &info, info.n_of_end_philo);
 	return (0);
 }

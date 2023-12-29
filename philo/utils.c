@@ -48,15 +48,6 @@ long long	get_time(void)
 	return ((long long)tv.tv_sec * 1000L + (long long)tv.tv_usec / 1000L);
 }
 
-void	join_philos(t_philo *arr, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n)
-		pthread_join(arr[i++].thread_id, NULL);
-}
-
 long long	p_print(t_philo *p, char *str)
 {
 	long long	time;
@@ -71,5 +62,19 @@ long long	p_print(t_philo *p, char *str)
 int	print_error(void)
 {
 	printf("error\n");
+	return (1);
+}
+
+int	clean_all(t_philo *philos, t_info *info, int n)
+{
+	int	i;
+
+	pthread_mutex_destroy(&(info->ready_mutex));
+	pthread_mutex_destroy(&(info->rsc_mutex));
+	i = 0;
+	while (i < n)
+		pthread_mutex_destroy(&(info->fork_arr[i++]));
+	free(philos);
+	free(info->fork_arr);
 	return (1);
 }

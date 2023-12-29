@@ -20,7 +20,7 @@ static int	p_single_mode(t_philo *p)
 	p_print(p, "is thinking\n");
 	pthread_mutex_unlock(&(p->info->rsc_mutex));
 	p_take_fork(p, 0);
-	usleep(p->info->t_to_die * 2000);
+	usleep(p->info->t_to_die * 1100);
 	p_release_fork(p, 0);
 	return (1);
 }

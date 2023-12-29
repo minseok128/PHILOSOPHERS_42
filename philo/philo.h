@@ -66,6 +66,7 @@ int			init_philos(t_philo **arr, t_info *info);
 int			start_philos(t_philo *arr, t_info *info);
 int			start_monitor(t_philo *philos, t_info *info);
 void		join_philos(t_philo *arr, int n);
+int			clean_all(t_philo *philos, t_info *info, int n);
 
 // philo function
 void		*p_run(t_philo *p);

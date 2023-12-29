@@ -41,7 +41,7 @@ void	p_sleep(t_philo *p)
 		if (p->info->t_to_must_think >= 0 && p->info->n_of_philo % 2)
 		{
 			p_stop(p->info, time + p->info->t_to_must_think, time);
-			usleep(400);
+			usleep(200);
 		}
 	}
 	else
